@@ -2112,6 +2112,8 @@ if(NOT CURL_DISABLE_INSTALL)
   set(_explicit_libs "")
   set(_explicit_libdirs "")
   set(LIBCURL_PC_REQUIRES_PRIVATE "")
+  set(LIBCURL_PC_LIBS_PRIVATE_LIST "")
+  set(LIBCURL_PC_LIBDIRS_PRIVATE_LIST "")
   foreach(_lib IN LISTS CURL_LIBS)
     if(TARGET "${_lib}")
       get_target_property(_imported "${_lib}" IMPORTED)
@@ -2148,8 +2150,10 @@ if(NOT CURL_DISABLE_INSTALL)
       endif()
     elseif(_lib MATCHES "^-")  # '-framework <name>'
       list(APPEND _ldflags "${_lib}")
+      list(APPEND LIBCURL_PC_LIBS_PRIVATE_LIST "${_lib}")
     else()
       list(APPEND LIBCURL_PC_LIBS_PRIVATE "-l${_lib}")
+      list(APPEND LIBCURL_PC_LIBS_PRIVATE_LIST "${_lib}")
     endif()
   endforeach()
 
@@ -2160,6 +2164,7 @@ if(NOT CURL_DISABLE_INSTALL)
     list(FIND _sys_libdirs "${_libdir}" _libdir_index)
     if(_libdir_index LESS 0)
       list(APPEND _ldflags "-L${_libdir}")
+      list(APPEND LIBCURL_PC_LIBDIRS_PRIVATE_LIST "${_libdir}")
     endif()
   endforeach()
 
@@ -2183,14 +2188,18 @@ if(NOT CURL_DISABLE_INSTALL)
         list(FIND _sys_libdirs "${_libdir}" _libdir_index)
         if(_libdir_index LESS 0)
           list(APPEND _ldflags "-L${_libdir}")
+          list(APPEND LIBCURL_PC_LIBDIRS_PRIVATE_LIST "${_libdir}")
         endif()
         string(REGEX REPLACE "^lib" "" _libname "${_libname}")
         list(APPEND LIBCURL_PC_LIBS_PRIVATE "-l${_libname}")
+        list(APPEND LIBCURL_PC_LIBS_PRIVATE_LIST "${_lib}")
       else()
         list(APPEND LIBCURL_PC_LIBS_PRIVATE "${_lib}")
+        list(APPEND LIBCURL_PC_LIBS_PRIVATE_LIST "${_lib}")
       endif()
     else()
       list(APPEND LIBCURL_PC_LIBS_PRIVATE "-l${_lib}")
+      list(APPEND LIBCURL_PC_LIBS_PRIVATE_LIST "${_lib}")
     endif()
   endforeach()
 
@@ -2307,6 +2316,8 @@ if(NOT CURL_DISABLE_INSTALL)
 
   # Consumed custom variables:
   #   CURLVERSION
+  #   LIBCURL_PC_LIBDIRS_PRIVATE_LIST
+  #   LIBCURL_PC_LIBS_PRIVATE_LIST
   #   LIB_NAME
   #   LIB_SELECTED
   #   LIB_STATIC
