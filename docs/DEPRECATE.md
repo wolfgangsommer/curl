@@ -16,12 +16,50 @@ how your use case cannot be satisfied properly using a workaround.
 
 Nothing is currently scheduled to be removed.
 
+<<<<<<< HEAD
 ## winbuild build system
 
 curl drops support for the winbuild build method after September 2025.
 
 We recommend migrating to CMake. See the migration guide in
 `docs/INSTALL-CMAKE.md`.
+||||||| parent of d236e94a60 (DEPRECATE.md update)
+## msh3 support
+
+The msh3 backed for QUIC and HTTP/3 was introduced in April 2022 but has never
+been made to work properly. It has seen no visible traction or developer
+activity from the msh3 main author (or anyone else seemingly interested) in
+two years. As a non-functional backend, it only adds friction and "weight" to
+the development and maintenance.
+
+Meanwhile, we have a fully working backend in the ngtcp2 one and we have two
+fully working backends in OpenSSL-QUIC and quiche well on their way of ending
+their experimental status in a future.
+
+We remove msh3 support from the curl source tree in July 2025.
+
+## winbuild build system
+
+curl drops support for the winbuild build method after September 2025.
+
+We recommend migrating to CMake. See the migration guide in
+`docs/INSTALL-CMAKE.md`.
+
+=======
+## msh3 support
+
+The msh3 backed for QUIC and HTTP/3 was introduced in April 2022 but has never
+been made to work properly. It has seen no visible traction or developer
+activity from the msh3 main author (or anyone else seemingly interested) in
+two years. As a non-functional backend, it only adds friction and "weight" to
+the development and maintenance.
+
+Meanwhile, we have a fully working backend in the ngtcp2 one and we have two
+fully working backends in OpenSSL-QUIC and quiche well on their way of ending
+their experimental status in a future.
+
+We remove msh3 support from the curl source tree in July 2025.
+>>>>>>> d236e94a60 (DEPRECATE.md update)
 
 ## Windows CE
 
@@ -65,3 +103,4 @@ Making the new minimum target Windows version Vista / Server 2008.
  - Secure Transport (removed in 8.15.0)
  - BearSSL (removed in 8.15.0)
  - msh3 (removed in 8.16.0)
+ - winbuild build system (removed in 8.17.0)
